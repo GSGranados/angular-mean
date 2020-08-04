@@ -1,3 +1,9 @@
+
+mat-form-field,
 textarea{
-  outline: none;
+  width: 100%;
+}
+
+.postButton{
+  margin-top: 1rem;
 }

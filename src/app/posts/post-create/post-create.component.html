@@ -1,4 +1,30 @@
-<textarea rows="6" [value]="userContent"></textarea>
-<hr>
-<button (click)="onAddPost()">Save Post</button>
-<p>{{userContent}}</p>
+<mat-card>
+  <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name="title"
+        ngModel
+        placeholder="Type down a title"
+        required
+        #title="ngModel"
+      />
+      <mat-error *ngIf="title.invalid">The <strong>Title</strong> is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        name="content"
+        placeholder="Please provide a Post Content..."
+        ngModel
+        required
+        #content = "ngModel"
+      ></textarea>
+      <mat-error *ngIf="content.invalid">The <strong>Content</strong> is required</mat-error>
+    </mat-form-field>
+    <button class="postButton"  mat-raised-button color="accent" type="submit">
+      Save Post
+    </button>
+  </form>
+</mat-card>
