@@ -1,9 +1,16 @@
+const path = require('path');
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const postRoutes = require('./routes/posts')
 
 //Declare express for the Application
 const app = express();
+
+//Define a body parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
+app.use("/images", express.static(path.join("backend/images")));
 
 //Mongoose Connect
 mongoose
