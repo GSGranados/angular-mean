@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const postRoutes = require('./routes/posts')
+const userRoutes = require('./routes/users')
 
 //Declare express for the Application
 const app = express();
@@ -15,7 +16,7 @@ app.use("/images", express.static(path.join("backend/images")));
 //Mongoose Connect
 mongoose
   .connect(
-    "mongodb+srv://jeager:Zywktof2NHaLOiZH@angular-mean-postsdb.dbx2x.mongodb.net/angular-posts?retryWrites=true&w=majority"
+    "mongodb+srv://jeager:Zywktof2NHaLOiZH@angular-mean-postsdb.dbx2x.mongodb.net/angular-posts"
   )
   .then(() => {
     console.log("Connected to Angular MEAN DB");
@@ -40,5 +41,7 @@ app.use((req, res, next) => {
 
 //ROUTE PREFIX
 app.use("/api/posts",postRoutes);
+//ROUTE PREFIX
+app.use("/api/user",userRoutes);
 
 module.exports = app;
