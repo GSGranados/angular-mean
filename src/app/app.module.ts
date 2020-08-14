@@ -16,7 +16,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatPaginatorModule} from '@angular/material/paginator';
 //HTTP CLIENT MODULE
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {AuthInterceptor} from './auth/auth-interceptor';
 //Routing Imports
 import {AppRoutingModule} from './app-routing.module';
 import { LoginComponent } from './auth/login/login.component';
@@ -48,7 +49,11 @@ import { SignupComponent } from './auth/signup/signup.component'
     FormsModule
 
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
