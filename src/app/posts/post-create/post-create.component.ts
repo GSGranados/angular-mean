@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Post } from '../post.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PostsService } from '../posts.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import {mimeType} from './mime-type.validator'
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 @Component({
   selector: 'app-post-create',
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.css'],
 })
-export class PostCreateComponent implements OnInit {
+export class PostCreateComponent implements OnInit, OnDestroy {
   //POST ATTRIBUTES
   enteredContent: string = '';
   enteredTitle: string = '';
@@ -22,14 +24,21 @@ export class PostCreateComponent implements OnInit {
   isLoading = false;
   //REACTIVE FORM OBJECT
   form: FormGroup;
+  //Subscription
+  private authStatusSub: Subscription;
 
   constructor(
     public postsService: PostsService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {
-
+    this.authStatusSub =this.authService.getAuthStatusListener().subscribe(
+      authStatus => {
+        this.isLoading= false
+      }
+    )
     //Initializing the Form
     this.form = new FormGroup({
       title : new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
@@ -84,5 +93,9 @@ export class PostCreateComponent implements OnInit {
       this.imagePreview = reader.result;
     };
     reader.readAsDataURL(file);
+  }
+
+  ngOnDestroy(){
+    this.authStatusSub.unsubscribe();
   }
 }

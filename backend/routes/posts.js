@@ -47,6 +47,11 @@ router.post(
           id: createdPost._id,
         },
       });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "Creating a post Failed"
+      })
     });
   }
 );
@@ -79,6 +84,10 @@ router.put(
           .status(401)
           .json({ message: "You are not the creator of this post" });
       }
+    }).catch(error => {
+      res.status(500).json({
+        message: "Could not update the post! :("
+      })
     });
   }
 );
@@ -102,6 +111,10 @@ router.get("", (req, res, next) => {
         posts: fetchedPosts,
         maxPosts: count,
       });
+    }).catch(error => {
+      res.status(500).json({
+        message: "Fetching Posts Failed"
+      })
     });
 });
 
@@ -112,6 +125,10 @@ router.get("/:id", (req, res, next) => {
     } else {
       res.status(404).json({ message: "Post not found!" });
     }
+  }).catch(error => {
+    res.status(500).json({
+      message: "Fetching Post Failed!"
+    })
   });
 });
 
@@ -126,7 +143,11 @@ router.delete("/:id", checkAuth, (req, res, next) => {
           .json({ message: "You are not the creator of this post, you are not able to delete it :(!" });
       }
     }
-  );
+  ).catch(error => {
+    res.status(500).json({
+      message: "Deleting Post Failed"
+    })
+  });
 });
 
 module.exports = router;

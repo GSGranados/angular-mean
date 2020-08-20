@@ -23,7 +23,7 @@ router.post("/signup", (req, res, next) => {
       })
       .catch((err) => {
         res.status(500).json({
-          error: err,
+            message: "Invalid Authentication credentials, Incorrect E-mail or password"
         });
       });
   });
@@ -44,7 +44,7 @@ router.post("/login", (req, res, next) => {
     .then((result) => {
       if (!result) {
         return res.status(401).json({
-          message: "Auth Failes",
+          message: "Auth Failed",
           error: err,
         });
       }
@@ -64,7 +64,7 @@ router.post("/login", (req, res, next) => {
     })
     .catch((err) => {
       return res.status(401).json({
-        message: "Auth Failed",
+        message: "Invalid Login Credentials. Please, try again",
       });
     });
 });
